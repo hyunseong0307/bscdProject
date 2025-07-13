@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>회원가입</title>
+    <style>
+        .error { color: red; }
+    </style>
+</head>
+<body>
+<h1>회원가입</h1>
+<div th:if="${errorMessage}" class="error" th:text="${errorMessage}"></div>
+
+<form th:action="@{/signup}" th:object="${signupRequestDto}" method="post">
+    <input type="text" th:field="*{name}" placeholder="이름" required><br>
+    <input type="email" th:field="*{email}" placeholder="이메일" required><br>
+    <input type="password" th:field="*{password}" placeholder="비밀번호" required><br>
+    <input type="password" th:field="*{passwordConfirm}" placeholder="비밀번호 확인" required><br>
+    <input type="text" th:field="*{phone}" placeholder="전화번호"><br>
+    <input type="text" th:field="*{region}" placeholder="지역"><br>
+    <select th:field="*{role}" required>
+        <option value="VOLUNTEER">봉사자</option>
+        <option value="ELDERLY">어르신</option>
+    </select><br><br>
+    <button type="submit">가입하기</button>
+</form>
+<a href="/login">로그인 페이지로 이동</a>
+
+</body>
+</html>
