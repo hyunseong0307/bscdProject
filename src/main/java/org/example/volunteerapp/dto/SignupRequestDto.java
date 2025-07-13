@@ -19,6 +19,9 @@ public class SignupRequestDto {
     @NotBlank
     private String password;
 
+    @NotBlank
+    private String passwordConfirm;
+
     private String phone;
 
     @NotBlank
