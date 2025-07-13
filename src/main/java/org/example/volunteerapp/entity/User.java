@@ -1,10 +1,18 @@
 package org.example.volunteerapp.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class User {
 
     @Id
@@ -13,18 +21,19 @@ public class User {
 
     private String name;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
 
+    @Column(nullable = false)
     private String password;
 
     private String phone;
 
-    private String role;
+    @Column(nullable = false)
+    private String role;  // "VOLUNTEER" or "ELDERLY"
 
     private String region;
 
-    private LocalDateTime createdAt = LocalDateTime.now();
-
-    // Getters/Setters
+    @CreationTimestamp
+    private LocalDateTime createdAt;
 }
