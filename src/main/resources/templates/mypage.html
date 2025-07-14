@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>마이페이지</title>
+</head>
+<body>
+<h1>마이페이지</h1>
+
+<div>
+    <h2>내 정보</h2>
+    <p><strong>이름:</strong> <span th:text="${user.name}"></span></p>
+    <p><strong>이메일:</strong> <span th:text="${user.email}"></span></p>
+    <p><strong>전화번호:</strong> <span th:text="${user.phone}"></span></p>
+    <p><strong>지역:</strong> <span th:text="${user.region}"></span></p>
+    <p><strong>역할:</strong> <span th:text="${user.role == 'ELDERLY' ? '어르신' : '봉사자'}"></span></p>
+</div>
+
+
+<div th:if="${user.role == 'ELDERLY'}">
+    <div>
+        <h2>내 봉사 요청 내역</h2>
+        <ul th:if="${!requests.isEmpty()}">
+            <li th:each="req : ${requests}">
+                요청 ID: <strong th:text="${req.id}">1</strong> |
+                지역: <span th:text="${req.region}">서울</span> |
+                상태: <span th:text="${req.status}">대기중</span> |
+                요청일: <span th:text="${#temporals.format(req.createdAt, 'yyyy-MM-dd HH:mm')}"></span>
+            </li>
+        </ul>
+        <p th:if="${requests.isEmpty()}">아직 봉사를 요청한 내역이 없습니다.</p>
+    </div>
+
+    <div>
+        <h2>매칭된 봉사자 내역</h2>
+        <ul th:if="${!matches.isEmpty()}">
+            <li th:each="match : ${matches}">
+                봉사자: <strong th:text="${match.volunteer.name}">김봉사</strong> |
+                매칭일: <span th:text="${#temporals.format(match.matchedAt, 'yyyy-MM-dd HH:mm')}"></span>
+            </li>
+        </ul>
+        <p th:if="${matches.isEmpty()}">아직 매칭된 봉사자가 없습니다.</p>
+    </div>
+</div>
+
+<div th:if="${user.role == 'VOLUNTEER'}">
+    <div>
+        <h2>내 봉사 활동 내역 (매칭 완료)</h2>
+        <ul th:if="${!matches.isEmpty()}">
+            <li th:each="match : ${matches}">
+                어르신: <strong th:text="${match.request.elderly.name}">이노인</strong> |
+                지역: <span th:text="${match.request.region}">부산</span> |
+                매칭일: <span th:text="${#temporals.format(match.matchedAt, 'yyyy-MM-dd HH:mm')}"></span>
+            </li>
+        </ul>
+        <p th:if="${matches.isEmpty()}">아직 매칭된 봉사 활동이 없습니다.</p>
+    </div>
+</div>
+
+<a href="/main">메인으로</a>
+<a href="/logout" style="margin-left: 1em;">로그아웃</a>
+</body>
+</html>
